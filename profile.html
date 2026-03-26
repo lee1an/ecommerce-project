@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Ilivate</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header>
+  <h1 onclick="window.location.href='index.html'">Ilivate</h1>
+  <div class="nav-actions">
+    <button class="btn btn-ghost" onclick="window.location.href='cart.html'" id="cart-btn">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Cart</span>
+      <span id="cart-badge">0</span>
+    </button>
+    <a href="index.html" class="btn btn-ghost">
+      <i class="fas fa-arrow-left"></i>
+      <span>Back to Shop</span>
+    </a>
+  </div>
+</header>
+
+<section class="container" style="padding-top: 3rem;">
+  <div class="form-container">
+    <h2 style="margin-top: 0; margin-bottom: 2rem;">My Profile</h2>
+    <div id="profile-details">
+      <!-- Profile details will be injected here -->
+    </div>
+
+    <h2 style="margin-top: 3rem; margin-bottom: 2rem;">Order History</h2>
+    <div id="order-history">
+      <!-- Orders will be injected here -->
+      <p class="text-muted">No orders found.</p>
+    </div>
+  </div>
+</section>
+
+<script src="profile.js"></script>
+</body>
+</html>

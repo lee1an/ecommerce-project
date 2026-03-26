@@ -2,70 +2,189 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Shop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ilivate</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
 <header>
-  <h1>My Shop</h1>
-  <button onclick="goToCart()">Cart</button>
+  <h1 onclick="window.location.href='index.html'">Ilivate</h1>
+  <div class="nav-actions">
+    <button class="btn btn-ghost" onclick="goToCart()">
+      <i class="fas fa-shopping-cart"></i>
+      <span>Cart</span>
+      <span id="cart-badge">0</span>
+    </button>
+    <div id="user-guest-actions">
+      <a href="login.html" class="btn btn-outline">Login</a>
+      <a href="login.html" class="btn btn-primary">Register</a>
+    </div>
+    <div id="user-logged-in-actions" style="display: none;">
+      <div class="profile-dropdown">
+        <button class="btn btn-ghost" id="profile-btn">
+          <i class="fas fa-user-circle" style="font-size: 1.25rem;"></i>
+          <span id="user-email"></span>
+          <i class="fas fa-chevron-down" style="font-size: 0.75rem;"></i>
+        </button>
+        <div class="dropdown-content" id="profile-dropdown-content">
+          <a href="profile.html"><i class="fas fa-id-card"></i> My Profile</a>
+          <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
 
-<section class="container">
+<section class="hero">
+  <div class="container">
+    <h2>Elevate Your Style</h2>
+    <p>Discover our curated collection of premium footwear and apparel designed for the modern individual.</p>
+    
+    <div style="max-width: 600px; margin: 0 auto 2.5rem; position: relative;">
+      <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+      <input type="text" id="search-input" placeholder="Search products..." style="padding-left: 3rem; border-radius: 9999px; margin-bottom: 0;">
+    </div>
 
-  <h2>Products</h2>
-
-  <!-- FILTER -->
-  <div class="filters">
-    <button onclick="filterProducts('all')">All</button>
-    <button onclick="filterProducts('Shoe')">Shoes</button>
-    <button onclick="filterProducts('tshirt')">T-Shirts</button>
-    <button onclick="filterProducts('pants')">Pants</button>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterProducts('all')">All Products</button>
+      <button class="filter-btn" onclick="filterProducts('Shoe')">Footwear</button>
+      <button class="filter-btn" onclick="filterProducts('tshirt')">Apparel</button>
+      <button class="filter-btn" onclick="filterProducts('pants')">Accessories</button>
+    </div>
   </div>
+</section>
 
+<section class="container">
   <!-- PRODUCTS -->
   <div class="products">
     
     <!-- Shoe -->
     <div class="card" data-category="Shoe">
-      <img src="images/shoe.jpg" alt="Shoe">
-      <h3>Shoe</h3>
-      <p class="price">₱1500</p>
-
-      <div class="card-buttons">
-        <button onclick="addToCart('Shoe',1500)">Add to Cart</button>
-        <button class="buy-btn" onclick="buyNow('Shoe',1500)">Buy Now</button>
+      <div class="card-img-wrapper">
+        <img src="images/shoe.png" alt="Premium Shoe">
+      </div>
+      <div class="card-content">
+        <h3>Premium Sneakers</h3>
+        <p class="price">₱1,500.00</p>
+        <div class="card-buttons">
+          <button class="btn btn-primary" onclick="addToCart('Shoe', 1500, 'images/shoe.png')">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+          <button class="btn btn-outline" onclick="buyNow('Shoe', 1500, 'images/shoe.png')">Buy Now</button>
+          <button class="btn btn-ghost" onclick="openReviews('Shoe')">
+            <i class="fas fa-star"></i> Reviews
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- TSHIRT -->
     <div class="card" data-category="tshirt">
-      <img src="images/tshirt.jpg" alt="T-Shirt">
-      <h3>T-Shirt</h3>
-      <p class="price">₱500</p>
-
-      <div class="card-buttons">
-        <button onclick="addToCart('T-Shirt',500)">Add to Cart</button>
-        <button class="buy-btn" onclick="buyNow('T-Shirt',500)">Buy Now</button>
+      <div class="card-img-wrapper">
+        <img src="images/tshirt.jpg" alt="Cotton T-Shirt">
+      </div>
+      <div class="card-content">
+        <h3>Essential Cotton Tee</h3>
+        <p class="price">₱500.00</p>
+        <div class="card-buttons">
+          <button class="btn btn-primary" onclick="addToCart('T-Shirt', 500, 'images/tshirt.jpg')">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+          <button class="btn btn-outline" onclick="buyNow('T-Shirt', 500, 'images/tshirt.jpg')">Buy Now</button>
+          <button class="btn btn-ghost" onclick="openReviews('T-Shirt')">
+            <i class="fas fa-star"></i> Reviews
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- PANTS -->
     <div class="card" data-category="pants">
-      <img src="images/cap.jpg" alt="Pants">
-      <h3>Pants</h3>
-      <p class="price">₱800</p>
-
-      <div class="card-buttons">
-        <button onclick="addToCart('Pants',800)">Add to Cart</button>
-        <button class="buy-btn" onclick="buyNow('Pants',800)">Buy Now</button>
+      <div class="card-img-wrapper">
+        <img src="images/cap.png" alt="Modern Cap">
+      </div>
+      <div class="card-content">
+        <h3>Urban Snapback Cap</h3>
+        <p class="price">₱800.00</p>
+        <div class="card-buttons">
+          <button class="btn btn-primary" onclick="addToCart('Pants', 800, 'images/cap.png')">
+            <i class="fas fa-cart-plus"></i> Add to Cart
+          </button>
+          <button class="btn btn-outline" onclick="buyNow('Pants', 800, 'images/cap.png')">Buy Now</button>
+          <button class="btn btn-ghost" onclick="openReviews('Pants')">
+            <i class="fas fa-star"></i> Reviews
+          </button>
+        </div>
       </div>
     </div>
 
   </div>
-
 </section>
+
+<!-- REVIEWS MODAL -->
+<div id="reviews-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeReviews()">&times;</span>
+    <h2 id="modal-product-name">Product Reviews</h2>
+    
+    <!-- Review Form -->
+    <div id="add-review-section" style="margin-top: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color);">
+      <h4 style="margin-bottom: 1rem;">Write a Review</h4>
+      <div class="star-rating">
+        <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
+        <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
+        <input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
+        <input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
+        <input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
+      </div>
+      <textarea id="review-comment" placeholder="Share your thoughts about this product..." rows="3" style="margin-bottom: 1rem;"></textarea>
+      <button class="btn btn-primary" onclick="submitReview()">Post Review</button>
+    </div>
+
+    <!-- Reviews List -->
+    <div id="reviews-list" style="margin-top: 2rem; max-height: 400px; overflow-y: auto;">
+      <!-- Reviews will be injected here -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Ilivate</h4>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Premium apparel and accessories for the modern lifestyle.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#" onclick="filterProducts('all')">All Products</a></li>
+        <li><a href="#" onclick="filterProducts('Shoe')">Footwear</a></li>
+        <li><a href="#" onclick="filterProducts('tshirt')">Apparel</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Customer Service</h4>
+      <ul>
+        <li><a href="#">Shipping Policy</a></li>
+        <li><a href="#">Returns & Exchanges</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Connect</h4>
+      <div style="display: flex; gap: 1rem; font-size: 1.25rem;">
+        <a href="#" style="color: var(--text-muted);"><i class="fab fa-facebook"></i></a>
+        <a href="#" style="color: var(--text-muted);"><i class="fab fa-instagram"></i></a>
+        <a href="#" style="color: var(--text-muted);"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Ilivate. All rights reserved.
+  </div>
+</footer>
 
 <script src="script.js"></script>
 </body>

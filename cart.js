@@ -1,83 +1,93 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let cartItemsDiv = document.getElementById("cart-items");
-let totalText = document.getElementById("total");
-
 function displayCart() {
+  let cartItemsDiv = document.getElementById("cart-items");
+  let totalText = document.getElementById("total");
+  let subtotalText = document.getElementById("subtotal");
+  let shippingText = document.getElementById("shipping");
+  
   cartItemsDiv.innerHTML = "";
-  let total = 0;
+  let subtotal = 0;
+  const shippingFee = cart.length > 0 ? 100 : 0;
 
   if (cart.length === 0) {
-    cartItemsDiv.innerHTML = `<p class="empty">Your cart is empty</p>`;
-    totalText.innerText = "";
-    return;
+    cartItemsDiv.innerHTML = `<p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 3rem;">Your cart is currently empty.</p>`;
   }
 
   for (let i = 0; i < cart.length; i++) {
     let item = cart[i];
-
-    if (!item.qty) {
-      item.qty = 1;
-    }
-
     let itemTotal = item.price * item.qty;
-    total += itemTotal;
+    subtotal += itemTotal;
 
     cartItemsDiv.innerHTML += `
       <div class="card">
-        <h3>${item.name}</h3>
-        <p>₱${item.price}</p>
-
-        <div class="qty-controls">
-          <button onclick="decreaseQty(${i})">-</button>
-          <span>${item.qty}</span>
-          <button onclick="increaseQty(${i})">+</button>
+        <div class="card-img-wrapper">
+          <img src="${item.image || 'images/placeholder.png'}" alt="${item.name}">
         </div>
+        <div class="card-content">
+          <h3>${item.name}</h3>
+          <p class="price">₱${item.price.toLocaleString()}</p>
 
-        <p>Total: ₱${itemTotal}</p>
-        <button onclick="removeItem(${i})">Remove</button>
+          <div class="qty-controls" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <button class="btn btn-outline" style="width: 32px; height: 32px; padding: 0;" onclick="decreaseQty(${i})">-</button>
+            <span style="font-weight: 600; min-width: 20px; text-align: center;">${item.qty}</span>
+            <button class="btn btn-outline" style="width: 32px; height: 32px; padding: 0;" onclick="increaseQty(${i})">+</button>
+          </div>
+
+          <p style="font-weight: 500; margin-top: 0.5rem;">Subtotal: <span style="color: var(--accent);">₱${itemTotal.toLocaleString()}</span></p>
+          <button class="btn btn-ghost" style="color: var(--danger); margin-top: 1rem; padding-left: 0;" onclick="removeItem(${i})">
+            <i class="fas fa-trash-alt"></i> Remove
+          </button>
+        </div>
       </div>
     `;
   }
 
-  totalText.innerText = "Total: ₱" + total;
-
-  localStorage.setItem("cart", JSON.stringify(cart));
+  let total = subtotal + shippingFee;
+  if (subtotalText) subtotalText.innerText = "₱" + subtotal.toLocaleString();
+  if (shippingText) shippingText.innerText = "₱" + shippingFee.toLocaleString();
+  if (totalText) totalText.innerText = "₱" + total.toLocaleString();
 }
 
 function increaseQty(index) {
   cart[index].qty += 1;
-  localStorage.setItem("cart", JSON.stringify(cart));
-  displayCart();
+  saveCart();
 }
 
 function decreaseQty(index) {
   if (cart[index].qty > 1) {
     cart[index].qty -= 1;
-  } else {
-    cart.splice(index, 1);
+    saveCart();
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  displayCart();
 }
 
 function removeItem(index) {
   cart.splice(index, 1);
+  saveCart();
+}
+
+function clearCart() {
+  if (confirm("Are you sure you want to clear your entire cart?")) {
+    cart = [];
+    saveCart();
+  }
+}
+
+function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   displayCart();
 }
 
+function goBack() {
+  window.location.href = "index.html";
+}
+
 function checkout() {
   if (cart.length === 0) {
-    alert("Cart is empty!");
+    alert("Your cart is empty!");
     return;
   }
   window.location.href = "checkout.html";
-}
-
-function goBack() {
-  window.location.href = "index.html";
 }
 
 displayCart();
